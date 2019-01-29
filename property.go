@@ -43,13 +43,13 @@ type DateTimeProperty struct {
 }
 
 func (p *DateTimeProperty) SetValue(value string) {
-	const timeFormat = "2019-01-28T21:16:00"
+	const timeFormat = "2006-01-02T15:04:05"
 	data, err := time.Parse(timeFormat, value)
 	if err != nil {
 		panic(err)
 	}
 	p.Value = value
-	p.Text = value
+	p.Text = data.Format("2006-01-02 15:04:05")
 	p.Data = data
 }
 
@@ -64,9 +64,9 @@ func (p *TimestampProperty) SetValue(value string) {
 	if err != nil {
 		panic(err)
 	}
-	data := time.Unix(f, 0)
+	data := time.Unix(f, 0).UTC()
 
 	p.Value = value
-	p.Text = value
+	p.Text = data.Format("2006-01-02 15:04:05")
 	p.Data = data
 }
