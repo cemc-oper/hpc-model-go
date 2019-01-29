@@ -8,9 +8,10 @@ import (
 type Property interface{}
 
 type StringProperty struct {
-	Value string
-	Text  string
-	Data  string
+	Category QueryCategory
+	Value    string
+	Text     string
+	Data     string
 }
 
 func (p *StringProperty) SetValue(value string) {
@@ -20,9 +21,10 @@ func (p *StringProperty) SetValue(value string) {
 }
 
 type NumberProperty struct {
-	Value string
-	Text  string
-	Data  float64
+	Category QueryCategory
+	Value    string
+	Text     string
+	Data     float64
 }
 
 func (p *NumberProperty) SetValue(value string) {
@@ -36,6 +38,7 @@ func (p *NumberProperty) SetValue(value string) {
 }
 
 type DateTimeProperty struct {
+	Category   QueryCategory
 	TimeFormat string
 	Value      string
 	Text       string
@@ -54,9 +57,10 @@ func (p *DateTimeProperty) SetValue(value string) {
 }
 
 type TimestampProperty struct {
-	Value string
-	Text  string
-	Data  time.Time
+	Category QueryCategory
+	Value    string
+	Text     string
+	Data     time.Time
 }
 
 func (p *TimestampProperty) SetValue(value string) {
