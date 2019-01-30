@@ -4,6 +4,7 @@ type QueryCategory struct {
 	Id          string
 	DisplayName string
 	Label       string
+	ParseRecord RecordParser
 }
 
 type QueryCategoryList struct {

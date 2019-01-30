@@ -115,3 +115,83 @@ func TestTimestampProperty_SetValue(t *testing.T) {
 		}
 	}
 }
+
+func TestBuildProperty_StringProperty(t *testing.T) {
+	var tests = []struct {
+		category hpcmodel.QueryCategory
+		records  []string
+		value    string
+		data     string
+		text     string
+	}{
+		{
+			hpcmodel.QueryCategory{
+				Id:          "id1",
+				DisplayName: "owner",
+				Label:       "owner",
+				ParseRecord: &hpcmodel.TokenRecordParser{
+					Index: 0,
+					Sep:   "|",
+				},
+			},
+			[]string{"nwp_xp|(null)|1|0|NONE"},
+			"nwp_xp",
+			"nwp_xp",
+			"nwp_xp",
+		},
+	}
+	for _, test := range tests {
+		var p hpcmodel.StringProperty
+		hpcmodel.BuildProperty(&p, test.records, test.category)
+		if p.Value != test.value {
+			t.Errorf("p.Text != %s", test.value)
+		}
+		if p.Data != test.data {
+			t.Errorf("p.Data != %s", test.data)
+		}
+		if p.Text != test.text {
+			t.Errorf("p.Text != %s", test.text)
+		}
+
+	}
+}
+
+func TestBuildProperty_NumberProperty(t *testing.T) {
+	var tests = []struct {
+		category hpcmodel.QueryCategory
+		records  []string
+		value    string
+		data     float64
+		text     string
+	}{
+		{
+			hpcmodel.QueryCategory{
+				Id:          "id1",
+				DisplayName: "owner",
+				Label:       "owner",
+				ParseRecord: &hpcmodel.TokenRecordParser{
+					Index: 2,
+					Sep:   "|",
+				},
+			},
+			[]string{"nwp_xp|(null)|1|0|NONE"},
+			"1",
+			1,
+			"1",
+		},
+	}
+	for _, test := range tests {
+		var p hpcmodel.NumberProperty
+		hpcmodel.BuildProperty(&p, test.records, test.category)
+		if p.Value != test.value {
+			t.Errorf("p.Text != %s", test.value)
+		}
+		if p.Data != test.data {
+			t.Errorf("p.Data != %f", test.data)
+		}
+		if p.Text != test.text {
+			t.Errorf("p.Text != %s", test.text)
+		}
+
+	}
+}

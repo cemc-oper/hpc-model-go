@@ -5,7 +5,24 @@ import (
 	"time"
 )
 
-type Property interface{}
+type Property interface {
+	SetValue(value string)
+}
+
+func BuildProperty(p Property, records []string, category QueryCategory) {
+	value := category.ParseRecord.Parse(records)
+	switch p1 := p.(type) {
+	case *StringProperty:
+		p1.Category = category
+	case *NumberProperty:
+		p1.Category = category
+	case *DateTimeProperty:
+		p1.Category = category
+	case *TimestampProperty:
+		p1.Category = category
+	}
+	p.SetValue(value)
+}
 
 type StringProperty struct {
 	Category QueryCategory

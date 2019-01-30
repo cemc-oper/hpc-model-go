@@ -11,5 +11,5 @@ func TestItem(t *testing.T) {
 	var prop hpcmodel.StringProperty
 	prop.SetValue("wdp")
 
-	item.Props = append(item.Props, prop)
+	item.Props = append(item.Props, &prop)
 }
