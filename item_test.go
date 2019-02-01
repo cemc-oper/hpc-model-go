@@ -75,10 +75,9 @@ func TestBuildItem_StringProperty(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		var item hpcmodel.Item
-		hpcmodel.BuildItem(&item, test.records, test.categoryList)
+		item := hpcmodel.BuildItem(test.records, test.categoryList)
 		for _, propertyTest := range test.properties {
-			p := hpcmodel.GetProperty(&item, propertyTest.id)
+			p := item.GetProperty(propertyTest.id)
 			if p == nil {
 				t.Errorf("property %s is not found", propertyTest.id)
 			}
@@ -161,10 +160,9 @@ func TestBuildItem_NumberProperty(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		var item hpcmodel.Item
-		hpcmodel.BuildItem(&item, test.records, test.categoryList)
+		item := hpcmodel.BuildItem(test.records, test.categoryList)
 		for _, propertyTest := range test.properties {
-			p := hpcmodel.GetProperty(&item, propertyTest.id)
+			p := item.GetProperty(propertyTest.id)
 			if p == nil {
 				t.Errorf("property %s is not found", propertyTest.id)
 			}
@@ -230,10 +228,9 @@ func TestBuildItem_DateTimeProperty(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		var item hpcmodel.Item
-		hpcmodel.BuildItem(&item, test.records, test.categoryList)
+		item := hpcmodel.BuildItem(test.records, test.categoryList)
 		for _, propertyTest := range test.properties {
-			p := hpcmodel.GetProperty(&item, propertyTest.id)
+			p := item.GetProperty(propertyTest.id)
 			if p == nil {
 				t.Errorf("property %s is not found", propertyTest.id)
 			}

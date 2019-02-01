@@ -1,42 +1,20 @@
 package hpcmodel
 
 import (
-	"fmt"
 	"strconv"
 	"time"
 )
 
 type Property interface {
 	SetValue(value string)
+	SetCategory(category QueryCategory)
+	PropertyID() string
 }
 
 func BuildProperty(p Property, records []string, category QueryCategory) {
+	p.SetCategory(category)
 	value := category.ParseRecord.Parse(records)
-	switch p1 := p.(type) {
-	case *StringProperty:
-		p1.Category = category
-	case *NumberProperty:
-		p1.Category = category
-	case *DateTimeProperty:
-		p1.Category = category
-	case *TimestampProperty:
-		p1.Category = category
-	}
 	p.SetValue(value)
-}
-
-func GetPropertyID(p Property) (string, error) {
-	switch p1 := p.(type) {
-	case *StringProperty:
-		return p1.Category.Id, nil
-	case *NumberProperty:
-		return p1.Category.Id, nil
-	case *DateTimeProperty:
-		return p1.Category.Id, nil
-	case *TimestampProperty:
-		return p1.Category.Id, nil
-	}
-	return "", fmt.Errorf("not found")
 }
 
 type StringProperty struct {
@@ -50,6 +28,14 @@ func (p *StringProperty) SetValue(value string) {
 	p.Value = value
 	p.Text = value
 	p.Data = value
+}
+
+func (p *StringProperty) SetCategory(category QueryCategory) {
+	p.Category = category
+}
+
+func (p *StringProperty) PropertyID() string {
+	return p.Category.Id
 }
 
 type NumberProperty struct {
@@ -67,6 +53,14 @@ func (p *NumberProperty) SetValue(value string) {
 	p.Value = value
 	p.Text = value
 	p.Data = data
+}
+
+func (p *NumberProperty) SetCategory(category QueryCategory) {
+	p.Category = category
+}
+
+func (p *NumberProperty) PropertyID() string {
+	return p.Category.Id
 }
 
 type DateTimeProperty struct {
@@ -88,6 +82,14 @@ func (p *DateTimeProperty) SetValue(value string) {
 	p.Data = data
 }
 
+func (p *DateTimeProperty) SetCategory(category QueryCategory) {
+	p.Category = category
+}
+
+func (p *DateTimeProperty) PropertyID() string {
+	return p.Category.Id
+}
+
 type TimestampProperty struct {
 	Category QueryCategory
 	Value    string
@@ -105,4 +107,12 @@ func (p *TimestampProperty) SetValue(value string) {
 	p.Value = value
 	p.Text = data.Format("2006-01-02 15:04:05")
 	p.Data = data
+}
+
+func (p *TimestampProperty) SetCategory(category QueryCategory) {
+	p.Category = category
+}
+
+func (p *TimestampProperty) PropertyID() string {
+	return p.Category.Id
 }
