@@ -1,6 +1,7 @@
 package hpcmodel
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 )
@@ -22,6 +23,20 @@ func BuildProperty(p Property, records []string, category QueryCategory) {
 		p1.Category = category
 	}
 	p.SetValue(value)
+}
+
+func GetPropertyID(p Property) (string, error) {
+	switch p1 := p.(type) {
+	case *StringProperty:
+		return p1.Category.Id, nil
+	case *NumberProperty:
+		return p1.Category.Id, nil
+	case *DateTimeProperty:
+		return p1.Category.Id, nil
+	case *TimestampProperty:
+		return p1.Category.Id, nil
+	}
+	return "", fmt.Errorf("not found")
 }
 
 type StringProperty struct {
