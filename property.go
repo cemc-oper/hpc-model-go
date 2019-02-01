@@ -1,6 +1,7 @@
 package hpcmodel
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 )
@@ -11,10 +12,24 @@ type Property interface {
 	PropertyID() string
 }
 
-func BuildProperty(p Property, records []string, category QueryCategory) {
+func BuildProperty(records []string, category QueryCategory) Property {
+	var p Property
+	switch category.PropertyClass {
+	case "StringProperty":
+		p = &StringProperty{}
+	case "NumberProperty":
+		p = &NumberProperty{}
+	case "DateTimeProperty":
+		p = &DateTimeProperty{}
+	case "TimestampProperty":
+		p = &TimestampProperty{}
+	default:
+		panic(fmt.Errorf("error PropertyClass: %s", category.PropertyClass))
+	}
 	p.SetCategory(category)
 	value := category.ParseRecord.Parse(records)
 	p.SetValue(value)
+	return p
 }
 
 type StringProperty struct {

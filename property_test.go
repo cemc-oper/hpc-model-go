@@ -133,6 +133,7 @@ func TestBuildProperty_StringProperty(t *testing.T) {
 					Index: 0,
 					Sep:   "|",
 				},
+				PropertyClass: "StringProperty",
 			},
 			[]string{"nwp_xp|(null)|1|0|NONE"},
 			"nwp_xp",
@@ -141,15 +142,18 @@ func TestBuildProperty_StringProperty(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		var p hpcmodel.StringProperty
-		hpcmodel.BuildProperty(&p, test.records, test.category)
-		if p.Value != test.value {
+		p := hpcmodel.BuildProperty(test.records, test.category)
+		sp, ok := p.(*hpcmodel.StringProperty)
+		if !ok {
+			t.Errorf("property is not StringProperty")
+		}
+		if sp.Value != test.value {
 			t.Errorf("p.Text != %s", test.value)
 		}
-		if p.Data != test.data {
+		if sp.Data != test.data {
 			t.Errorf("p.Data != %s", test.data)
 		}
-		if p.Text != test.text {
+		if sp.Text != test.text {
 			t.Errorf("p.Text != %s", test.text)
 		}
 
@@ -173,6 +177,7 @@ func TestBuildProperty_NumberProperty(t *testing.T) {
 					Index: 2,
 					Sep:   "|",
 				},
+				PropertyClass: "NumberProperty",
 			},
 			[]string{"nwp_xp|(null)|1|0|NONE"},
 			"1",
@@ -181,15 +186,18 @@ func TestBuildProperty_NumberProperty(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		var p hpcmodel.NumberProperty
-		hpcmodel.BuildProperty(&p, test.records, test.category)
-		if p.Value != test.value {
+		p := hpcmodel.BuildProperty(test.records, test.category)
+		np, ok := p.(*hpcmodel.NumberProperty)
+		if !ok {
+			t.Errorf("property is not NumberProperty")
+		}
+		if np.Value != test.value {
 			t.Errorf("p.Text != %s", test.value)
 		}
-		if p.Data != test.data {
+		if np.Data != test.data {
 			t.Errorf("p.Data != %f", test.data)
 		}
-		if p.Text != test.text {
+		if np.Text != test.text {
 			t.Errorf("p.Text != %s", test.text)
 		}
 
