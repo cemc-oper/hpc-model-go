@@ -5,6 +5,8 @@ type QueryCategory struct {
 	DisplayName             string
 	Label                   string
 	ParseRecord             RecordParser
+	RecordParserClass       string
+	RecordParserArguments   []string
 	PropertyClass           string
 	PropertyCreateArguments []string
 }

@@ -5,6 +5,17 @@ import (
 	"testing"
 )
 
+func TestBuildRecordParser_TokenRecordParser(t *testing.T) {
+	category := hpcmodel.QueryCategory{
+		RecordParserClass:     "TokenRecordParser",
+		RecordParserArguments: []string{"1", "|"},
+	}
+	recordParser := hpcmodel.BuildRecordParser(category)
+	if recordParser == nil {
+		t.Errorf("Build TokenRecordParser failed.")
+	}
+}
+
 func TestTokenRecordParser_Parse(t *testing.T) {
 	var tests = []struct {
 		index   int
