@@ -34,7 +34,7 @@ func TestBuildItem_StringProperty(t *testing.T) {
 			hpcmodel.QueryCategoryList{
 				CategoryList: []hpcmodel.QueryCategory{
 					{
-						Id:          "squeue.account",
+						ID:          "squeue.account",
 						DisplayName: "account",
 						Label:       "Account",
 						ParseRecord: &hpcmodel.TokenRecordParser{
@@ -45,7 +45,7 @@ func TestBuildItem_StringProperty(t *testing.T) {
 						PropertyCreateArguments: []string{},
 					},
 					{
-						Id:          "squeue.job_id",
+						ID:          "squeue.job_id",
 						DisplayName: "JOB ID",
 						Label:       "JOBID",
 						ParseRecord: &hpcmodel.TokenRecordParser{
@@ -122,7 +122,7 @@ func TestBuildItem_NumberProperty(t *testing.T) {
 			hpcmodel.QueryCategoryList{
 				CategoryList: []hpcmodel.QueryCategory{
 					{
-						Id:          "squeue.cpus",
+						ID:          "squeue.cpus",
 						DisplayName: "Cpus",
 						Label:       "CPUS",
 						ParseRecord: &hpcmodel.TokenRecordParser{
@@ -133,7 +133,7 @@ func TestBuildItem_NumberProperty(t *testing.T) {
 						PropertyCreateArguments: []string{},
 					},
 					{
-						Id:          "squeue.nodes",
+						ID:          "squeue.nodes",
 						DisplayName: "Nodes",
 						Label:       "NODES",
 						ParseRecord: &hpcmodel.TokenRecordParser{
@@ -210,7 +210,7 @@ func TestBuildItem_DateTimeProperty(t *testing.T) {
 			hpcmodel.QueryCategoryList{
 				CategoryList: []hpcmodel.QueryCategory{
 					{
-						Id:          "squeue.start_time",
+						ID:          "squeue.start_time",
 						DisplayName: "Start time",
 						Label:       "START_TIME",
 						ParseRecord: &hpcmodel.TokenRecordParser{

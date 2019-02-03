@@ -126,7 +126,7 @@ func TestBuildProperty_StringProperty(t *testing.T) {
 	}{
 		{
 			hpcmodel.QueryCategory{
-				Id:          "id1",
+				ID:          "id1",
 				DisplayName: "owner",
 				Label:       "owner",
 				ParseRecord: &hpcmodel.TokenRecordParser{
@@ -173,7 +173,7 @@ func TestBuildProperty_NumberProperty(t *testing.T) {
 	}{
 		{
 			hpcmodel.QueryCategory{
-				Id:          "id1",
+				ID:          "id1",
 				DisplayName: "owner",
 				Label:       "owner",
 				ParseRecord: &hpcmodel.TokenRecordParser{

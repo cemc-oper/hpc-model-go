@@ -50,7 +50,7 @@ func (p *StringProperty) SetCategory(category QueryCategory) {
 }
 
 func (p *StringProperty) PropertyID() string {
-	return p.Category.Id
+	return p.Category.ID
 }
 
 type NumberProperty struct {
@@ -75,7 +75,7 @@ func (p *NumberProperty) SetCategory(category QueryCategory) {
 }
 
 func (p *NumberProperty) PropertyID() string {
-	return p.Category.Id
+	return p.Category.ID
 }
 
 type DateTimeProperty struct {
@@ -102,7 +102,7 @@ func (p *DateTimeProperty) SetCategory(category QueryCategory) {
 }
 
 func (p *DateTimeProperty) PropertyID() string {
-	return p.Category.Id
+	return p.Category.ID
 }
 
 type TimestampProperty struct {
@@ -129,5 +129,5 @@ func (p *TimestampProperty) SetCategory(category QueryCategory) {
 }
 
 func (p *TimestampProperty) PropertyID() string {
-	return p.Category.Id
+	return p.Category.ID
 }
