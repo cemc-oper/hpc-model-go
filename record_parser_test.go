@@ -10,8 +10,8 @@ func TestBuildRecordParser_TokenRecordParser(t *testing.T) {
 		RecordParserClass:     "TokenRecordParser",
 		RecordParserArguments: []string{"1", "|"},
 	}
-	recordParser := hpcmodel.BuildRecordParser(category)
-	if recordParser == nil {
+	_, err := hpcmodel.BuildRecordParser(category)
+	if err != nil {
 		t.Errorf("Build TokenRecordParser failed.")
 	}
 }

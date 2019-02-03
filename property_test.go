@@ -142,7 +142,10 @@ func TestBuildProperty_StringProperty(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		p := hpcmodel.BuildProperty(test.records, test.category)
+		p, err := hpcmodel.BuildProperty(test.records, test.category)
+		if err != nil {
+			t.Errorf("build property failed: %v", err)
+		}
 		sp, ok := p.(*hpcmodel.StringProperty)
 		if !ok {
 			t.Errorf("property is not StringProperty")
@@ -186,7 +189,10 @@ func TestBuildProperty_NumberProperty(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		p := hpcmodel.BuildProperty(test.records, test.category)
+		p, err := hpcmodel.BuildProperty(test.records, test.category)
+		if err != nil {
+			t.Errorf("build property failed: %v", err)
+		}
 		np, ok := p.(*hpcmodel.NumberProperty)
 		if !ok {
 			t.Errorf("property is not NumberProperty")

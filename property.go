@@ -12,7 +12,7 @@ type Property interface {
 	PropertyID() string
 }
 
-func BuildProperty(records []string, category QueryCategory) Property {
+func BuildProperty(records []string, category QueryCategory) (Property, error) {
 	var p Property
 	switch category.PropertyClass {
 	case "StringProperty":
@@ -24,12 +24,12 @@ func BuildProperty(records []string, category QueryCategory) Property {
 	case "TimestampProperty":
 		p = &TimestampProperty{}
 	default:
-		panic(fmt.Errorf("error PropertyClass: %s", category.PropertyClass))
+		return nil, fmt.Errorf("error PropertyClass: %s", category.PropertyClass)
 	}
 	p.SetCategory(category)
 	value := category.ParseRecord.Parse(records)
 	p.SetValue(value)
-	return p
+	return p, nil
 }
 
 type StringProperty struct {

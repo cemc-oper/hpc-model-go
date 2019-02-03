@@ -1,5 +1,7 @@
 package hpcmodel
 
+import "fmt"
+
 type Item struct {
 	Props []Property
 }
@@ -19,11 +21,14 @@ func (item *Item) GetProperty(propertyID string) Property {
 	return nil
 }
 
-func BuildItem(records []string, categoryList QueryCategoryList) *Item {
+func BuildItem(records []string, categoryList QueryCategoryList) (*Item, error) {
 	item := new(Item)
 	for _, category := range categoryList.CategoryList {
-		p := BuildProperty(records, category)
+		p, err := BuildProperty(records, category)
+		if err != nil {
+			return nil, fmt.Errorf("build property failed: %v", err)
+		}
 		item.AddProp(p)
 	}
-	return item
+	return item, nil
 }

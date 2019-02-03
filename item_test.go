@@ -75,7 +75,10 @@ func TestBuildItem_StringProperty(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		item := hpcmodel.BuildItem(test.records, test.categoryList)
+		item, err := hpcmodel.BuildItem(test.records, test.categoryList)
+		if err != nil {
+			t.Errorf("build item failed: %v", err)
+		}
 		for _, propertyTest := range test.properties {
 			p := item.GetProperty(propertyTest.id)
 			if p == nil {
@@ -160,7 +163,10 @@ func TestBuildItem_NumberProperty(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		item := hpcmodel.BuildItem(test.records, test.categoryList)
+		item, err := hpcmodel.BuildItem(test.records, test.categoryList)
+		if err != nil {
+			t.Errorf("build item failed: %v", err)
+		}
 		for _, propertyTest := range test.properties {
 			p := item.GetProperty(propertyTest.id)
 			if p == nil {
@@ -228,7 +234,10 @@ func TestBuildItem_DateTimeProperty(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		item := hpcmodel.BuildItem(test.records, test.categoryList)
+		item, err := hpcmodel.BuildItem(test.records, test.categoryList)
+		if err != nil {
+			t.Errorf("build item failed: %v", err)
+		}
 		for _, propertyTest := range test.properties {
 			p := item.GetProperty(propertyTest.id)
 			if p == nil {

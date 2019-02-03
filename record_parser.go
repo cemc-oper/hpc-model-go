@@ -11,7 +11,7 @@ type RecordParser interface {
 	Parse(records []string) string
 }
 
-func BuildRecordParser(category QueryCategory) RecordParser {
+func BuildRecordParser(category QueryCategory) (RecordParser, error) {
 	var parser RecordParser
 	arguments := category.RecordParserArguments
 	switch category.RecordParserClass {
@@ -19,11 +19,11 @@ func BuildRecordParser(category QueryCategory) RecordParser {
 		parser = &TokenRecordParser{}
 		err := parser.SetArguments(arguments)
 		if err != nil {
-			return nil
+			return nil, fmt.Errorf("set arguments error: %v", err)
 		}
-		return parser
+		return parser, nil
 	}
-	return nil
+	return nil, fmt.Errorf("RecordParserClass not supported: %s", category.RecordParserClass)
 }
 
 type TokenRecordParser struct {
@@ -34,7 +34,7 @@ type TokenRecordParser struct {
 func (p *TokenRecordParser) SetArguments(arguments []string) error {
 	l := len(arguments)
 	if l == 0 || l > 2 {
-		return fmt.Errorf("arguments must 1 or 2.")
+		return fmt.Errorf("arguments must 1 or 2")
 	}
 	var index int64
 	var sep string
