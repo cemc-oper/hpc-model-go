@@ -2,7 +2,7 @@ package slurm
 
 import (
 	"fmt"
-	"nwpc-hpc-model-go"
+	"github.com/perillaroc/nwpc-hpc-model-go"
 	"strconv"
 	"strings"
 )
