@@ -6,7 +6,7 @@ import (
 )
 
 func TestBuildRecordParser_TokenRecordParser(t *testing.T) {
-	category := hpcmodel.QueryCategory{
+	category := &hpcmodel.QueryCategory{
 		RecordParserClass:     "TokenRecordParser",
 		RecordParserArguments: []string{"1", "|"},
 	}
@@ -58,6 +58,39 @@ func TestTokenRecordParser_Parse(t *testing.T) {
 		if result != test.result {
 			t.Errorf("result is error: %d, result is %s, expect is %s",
 				test.index, result, test.result)
+		}
+	}
+}
+
+func TestTokenRecordParser_SetArguments(t *testing.T) {
+	var tests = []struct {
+		arguments []string
+		index     int
+		sep       string
+	}{
+		{
+			[]string{"1", "|"},
+			1,
+			"|",
+		},
+		{
+			[]string{"2"},
+			2,
+			"",
+		},
+	}
+
+	for _, test := range tests {
+		parser := new(hpcmodel.TokenRecordParser)
+		err := parser.SetArguments(test.arguments)
+		if err != nil {
+			t.Errorf("set arguments %v failed: %v", test.arguments, err)
+		}
+		if parser.Index != test.index {
+			t.Errorf("set arguments %v Index is %d, requred %d", test.arguments, parser.Index, test.index)
+		}
+		if parser.Sep != test.sep {
+			t.Errorf("set arguments %v Sep is %s, requred %s", test.arguments, parser.Sep, test.sep)
 		}
 	}
 }

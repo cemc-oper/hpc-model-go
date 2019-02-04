@@ -11,7 +11,7 @@ type RecordParser interface {
 	Parse(records []string) string
 }
 
-func BuildRecordParser(category QueryCategory) (RecordParser, error) {
+func BuildRecordParser(category *QueryCategory) (RecordParser, error) {
 	var parser RecordParser
 	arguments := category.RecordParserArguments
 	switch category.RecordParserClass {
@@ -39,12 +39,14 @@ func (p *TokenRecordParser) SetArguments(arguments []string) error {
 	var index int64
 	var sep string
 	var err error
-	if l == 1 {
+	if l >= 1 {
 		index, err = strconv.ParseInt(arguments[0], 10, 64)
 		if err != nil {
 			return fmt.Errorf("parse arg[0] failed: %v", err)
 		}
-	} else if l == 2 {
+	}
+
+	if l == 2 {
 		sep = arguments[1]
 	}
 	p.Index = int(index)
