@@ -53,7 +53,7 @@ func (q1 *QueryCategory) Equal(q2 *QueryCategory) bool {
 }
 
 type QueryCategoryList struct {
-	CategoryList []QueryCategory
+	CategoryList []*QueryCategory
 }
 
 func (ql *QueryCategoryList) ContainsID(id string) bool {
@@ -77,7 +77,7 @@ func (ql *QueryCategoryList) IndexFromId(id string) int {
 func (ql *QueryCategoryList) CategoryFromId(id string) *QueryCategory {
 	for _, category := range ql.CategoryList {
 		if category.ID == id {
-			return &category
+			return category
 		}
 	}
 	return nil
@@ -104,7 +104,7 @@ func (ql *QueryCategoryList) IndexFromLabel(label string) int {
 func (ql *QueryCategoryList) CategoryFromLabel(label string) *QueryCategory {
 	for _, category := range ql.CategoryList {
 		if category.Label == label {
-			return &category
+			return category
 		}
 	}
 	return nil

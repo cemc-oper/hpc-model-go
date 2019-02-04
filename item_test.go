@@ -32,7 +32,7 @@ func TestBuildItem_StringProperty(t *testing.T) {
 	var tests = []TestCase{
 		{
 			hpcmodel.QueryCategoryList{
-				CategoryList: []hpcmodel.QueryCategory{
+				CategoryList: []*hpcmodel.QueryCategory{
 					{
 						ID:          "squeue.account",
 						DisplayName: "account",
@@ -120,7 +120,7 @@ func TestBuildItem_NumberProperty(t *testing.T) {
 	var tests = []TestCase{
 		{
 			hpcmodel.QueryCategoryList{
-				CategoryList: []hpcmodel.QueryCategory{
+				CategoryList: []*hpcmodel.QueryCategory{
 					{
 						ID:          "squeue.cpus",
 						DisplayName: "Cpus",
@@ -208,7 +208,7 @@ func TestBuildItem_DateTimeProperty(t *testing.T) {
 	var tests = []TestCase{
 		{
 			hpcmodel.QueryCategoryList{
-				CategoryList: []hpcmodel.QueryCategory{
+				CategoryList: []*hpcmodel.QueryCategory{
 					{
 						ID:          "squeue.start_time",
 						DisplayName: "Start time",

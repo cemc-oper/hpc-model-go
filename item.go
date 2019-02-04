@@ -24,7 +24,7 @@ func (item *Item) GetProperty(propertyID string) Property {
 func BuildItem(records []string, categoryList QueryCategoryList) (*Item, error) {
 	item := new(Item)
 	for _, category := range categoryList.CategoryList {
-		p, err := BuildProperty(records, category)
+		p, err := BuildProperty(records, *category)
 		if err != nil {
 			return nil, fmt.Errorf("build property failed: %v", err)
 		}

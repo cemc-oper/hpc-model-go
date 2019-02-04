@@ -60,7 +60,7 @@ func TestQueryCategory_Equal(t *testing.T) {
 }
 
 var categoryList = hpcmodel.QueryCategoryList{
-	CategoryList: []hpcmodel.QueryCategory{
+	CategoryList: []*hpcmodel.QueryCategory{
 		{
 			ID:    "slurm.account",
 			Label: "ACCOUNT",
@@ -130,8 +130,8 @@ func TestQueryCategoryList_CategoryFromId(t *testing.T) {
 		id     string
 		result *hpcmodel.QueryCategory
 	}{
-		{"slurm.account", &categoryList.CategoryList[0]},
-		{"slurm.state", &categoryList.CategoryList[4]},
+		{"slurm.account", categoryList.CategoryList[0]},
+		{"slurm.state", categoryList.CategoryList[4]},
 		{"llq.user", nil},
 	}
 	for _, test := range tests {
@@ -181,8 +181,8 @@ func TestQueryCategoryList_CategoryFromLabel(t *testing.T) {
 		label  string
 		result *hpcmodel.QueryCategory
 	}{
-		{"ACCOUNT", &categoryList.CategoryList[0]},
-		{"STATE", &categoryList.CategoryList[4]},
+		{"ACCOUNT", categoryList.CategoryList[0]},
+		{"STATE", categoryList.CategoryList[4]},
 		{"USER", nil},
 	}
 	for _, test := range tests {
