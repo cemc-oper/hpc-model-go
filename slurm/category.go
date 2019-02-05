@@ -13,7 +13,12 @@ type QueryCategoryList struct {
 
 func (ql *QueryCategoryList) UpdateTokenIndex(titleLine string, sep string) {
 	titleLine = strings.TrimSpace(titleLine)
-	tokens := strings.Split(titleLine, sep)
+	var tokens []string
+	if sep == "" || sep == " " {
+		tokens = strings.Fields(titleLine)
+	} else {
+		tokens = strings.Split(titleLine, sep)
+	}
 	for index, label := range tokens {
 		category := ql.CategoryFromLabel(label)
 		if category != nil {

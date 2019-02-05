@@ -71,3 +71,63 @@ func TestQueryCategoryList_UpdateTokenIndex(t *testing.T) {
 		}
 	}
 }
+
+func TestBuildModel2(t *testing.T) {
+	categoryList := &slurm.QueryCategoryList{
+		QueryCategoryList: hpcmodel.QueryCategoryList{
+			CategoryList: []*hpcmodel.QueryCategory{
+				{
+					ID:                      "sinfo.partition",
+					DisplayName:             "Partition",
+					Label:                   "PARTITION",
+					PropertyClass:           "StringProperty",
+					PropertyCreateArguments: []string{},
+				},
+				{
+					ID:                      "squeue.avail",
+					DisplayName:             "Avail",
+					Label:                   "AVAIL",
+					PropertyClass:           "StringProperty",
+					PropertyCreateArguments: []string{},
+				},
+			},
+		},
+	}
+
+	tests := []struct {
+		label string
+		index int
+		sep   string
+	}{
+		{
+			"PARTITION",
+			0,
+			"",
+		},
+		{
+			"AVAIL",
+			1,
+			"",
+		},
+	}
+
+	titleLine := "PARTITION            AVAIL       NODES(A/I/O/T)                  CPUS(A/I/O/T)"
+
+	categoryList.UpdateTokenIndex(titleLine, "")
+	for _, test := range tests {
+		category := categoryList.CategoryFromLabel(test.label)
+		if category == nil {
+			t.Errorf("can't find category with label %s", test.label)
+		}
+		args := category.RecordParserArguments
+		if len(args) != 2 {
+			t.Errorf("RecordParserArguments length is not 2")
+		}
+		if args[0] != strconv.Itoa(test.index) {
+			t.Errorf("index is %s, should %d", args[0], test.index)
+		}
+		if args[1] != test.sep {
+			t.Errorf("sep is %s, should %s", args[0], test.sep)
+		}
+	}
+}
