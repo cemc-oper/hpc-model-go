@@ -56,6 +56,12 @@ func (p *TokenRecordParser) SetArguments(arguments []string) error {
 
 func (p *TokenRecordParser) Parse(records []string) string {
 	record := records[0]
-	tokens := strings.Split(record, p.Sep)
+	var tokens []string
+	if p.Sep == " " || p.Sep == "" {
+		tokens = strings.Fields(record)
+
+	} else {
+		tokens = strings.Split(record, p.Sep)
+	}
 	return tokens[p.Index]
 }
