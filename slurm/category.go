@@ -1,8 +1,8 @@
 package slurm
 
 import (
-	"fmt"
 	"github.com/perillaroc/nwpc-hpc-model-go"
+	"log"
 	"strconv"
 	"strings"
 )
@@ -25,7 +25,7 @@ func (ql *QueryCategoryList) UpdateTokenIndex(titleLine string, sep string) {
 			category.RecordParserArguments = []string{strconv.Itoa(index), sep}
 			recordParser, err := hpcmodel.BuildRecordParser(category)
 			if err != nil {
-				fmt.Errorf("build record parser failed: %v", err)
+				log.Fatalf("build record parser failed: %v", err)
 				continue
 			}
 			category.ParseRecord = recordParser
