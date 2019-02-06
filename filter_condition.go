@@ -1,9 +1,7 @@
 package hpcmodel
 
-import "strings"
-
 type FilterCondition interface {
-	isFit(item *Item) bool
+	IsFit(item *Item) bool
 }
 
 type StringPropertyFilterCondition struct {
@@ -11,7 +9,7 @@ type StringPropertyFilterCondition struct {
 	Checker StringValueChecker
 }
 
-func (f *StringPropertyFilterCondition) isFit(item *Item) bool {
+func (f *StringPropertyFilterCondition) IsFit(item *Item) bool {
 	prop := item.GetProperty(f.ID)
 	if prop == nil {
 		return false
@@ -23,39 +21,40 @@ func (f *StringPropertyFilterCondition) isFit(item *Item) bool {
 	return f.Checker.CheckValue(sp.Data)
 }
 
-type StringValueChecker interface {
-	CheckValue(s string) bool
+// Number Property
+
+type NumberPropertyFilterCondition struct {
+	ID      string
+	Checker NumberValueChecker
 }
 
-type StringEqualValueChecker struct {
-	ExpectedValue string
-}
-
-func (c *StringEqualValueChecker) CheckValue(s string) bool {
-	if s == c.ExpectedValue {
-		return true
-	} else {
+func (f *NumberPropertyFilterCondition) IsFit(item *Item) bool {
+	prop := item.GetProperty(f.ID)
+	if prop == nil {
 		return false
 	}
-}
-
-type StringInValueChecker struct {
-	ExpectedValues []string
-}
-
-func (c *StringInValueChecker) CheckValue(s string) bool {
-	for _, v := range c.ExpectedValues {
-		if s == v {
-			return true
-		}
+	sp, ok := prop.(*NumberProperty)
+	if !ok {
+		return false
 	}
-	return false
+	return f.Checker.CheckValue(sp.Data)
 }
 
-type StringContainChecker struct {
-	ExpectedValue string
+// DateTime property
+
+type DateTimePropertyFilterCondition struct {
+	ID      string
+	Checker DateTimeValueChecker
 }
 
-func (c *StringContainChecker) CheckValue(s string) bool {
-	return strings.Contains(s, c.ExpectedValue)
+func (f *DateTimePropertyFilterCondition) IsFit(item *Item) bool {
+	prop := item.GetProperty(f.ID)
+	if prop == nil {
+		return false
+	}
+	dp, ok := prop.(*DateTimeProperty)
+	if !ok {
+		return false
+	}
+	return f.Checker.CheckValue(dp.Data)
 }

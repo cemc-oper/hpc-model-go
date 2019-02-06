@@ -17,6 +17,7 @@ func TestQueryCategoryList_UpdateTokenIndex(t *testing.T) {
 					Label:                   "ACCOUNT",
 					PropertyClass:           "StringProperty",
 					PropertyCreateArguments: []string{},
+					RecordParserClass:       "TokenRecordParser",
 				},
 				{
 					ID:                      "squeue.job_id",
@@ -24,6 +25,7 @@ func TestQueryCategoryList_UpdateTokenIndex(t *testing.T) {
 					Label:                   "JOBID",
 					PropertyClass:           "StringProperty",
 					PropertyCreateArguments: []string{},
+					RecordParserClass:       "TokenRecordParser",
 				},
 			},
 		},
@@ -82,6 +84,7 @@ func TestBuildModel2(t *testing.T) {
 					Label:                   "PARTITION",
 					PropertyClass:           "StringProperty",
 					PropertyCreateArguments: []string{},
+					RecordParserClass:       "TokenRecordParser",
 				},
 				{
 					ID:                      "squeue.avail",
@@ -89,6 +92,7 @@ func TestBuildModel2(t *testing.T) {
 					Label:                   "AVAIL",
 					PropertyClass:           "StringProperty",
 					PropertyCreateArguments: []string{},
+					RecordParserClass:       "TokenRecordParser",
 				},
 			},
 		},
