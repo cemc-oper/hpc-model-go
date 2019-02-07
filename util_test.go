@@ -247,8 +247,8 @@ func TestCreateStringPropertyLessFunc(t *testing.T) {
 		},
 	}
 
-	accountSort := CreateStringPropertyLessFunc("squeue.account")
-	jobidSort := CreateStringPropertyLessFunc("squeue.jobid")
+	accountSort := CreatePropertyLessFunc("squeue.account")
+	jobidSort := CreatePropertyLessFunc("squeue.jobid")
 
 	sorter := CreateSorter(accountSort, jobidSort)
 	sorter.Sort(items)

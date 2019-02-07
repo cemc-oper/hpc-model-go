@@ -4,27 +4,26 @@ import "sort"
 
 type LessFunc func(item1, item2 *Item) bool
 
-func CreateStringPropertyLessFunc(id string) LessFunc {
+func CreatePropertyLessFunc(id string) LessFunc {
 	return func(item1, item2 *Item) bool {
-		p1 := item1.GetProperty(id).(*StringProperty)
-		p2 := item2.GetProperty(id).(*StringProperty)
-		return p1.Data < p2.Data
-	}
-}
-
-func CreateNumberPropertyLessFunc(id string) LessFunc {
-	return func(item1, item2 *Item) bool {
-		p1 := item1.GetProperty(id).(*NumberProperty)
-		p2 := item2.GetProperty(id).(*NumberProperty)
-		return p1.Data < p2.Data
-	}
-}
-
-func CreateDateTimePropertyLessFunc(id string) LessFunc {
-	return func(item1, item2 *Item) bool {
-		p1 := item1.GetProperty(id).(*DateTimeProperty)
-		p2 := item2.GetProperty(id).(*DateTimeProperty)
-		return p1.Data.Before(p2.Data)
+		p1 := item1.GetProperty(id)
+		p2 := item2.GetProperty(id)
+		switch prop1 := p1.(type) {
+		case *StringProperty:
+			prop2 := p2.(*StringProperty)
+			return prop1.Data < prop2.Data
+		case *NumberProperty:
+			prop2 := p2.(*NumberProperty)
+			return prop1.Data < prop2.Data
+		case *DateTimeProperty:
+			prop2 := p2.(*DateTimeProperty)
+			return prop1.Data.Before(prop2.Data)
+		case *TimestampProperty:
+			prop2 := p2.(*DateTimeProperty)
+			return prop1.Data.Before(prop2.Data)
+		default:
+			panic("prop type not supported")
+		}
 	}
 }
 
