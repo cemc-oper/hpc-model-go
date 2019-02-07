@@ -1,7 +1,6 @@
 package slurm
 
 import (
-	"fmt"
 	"github.com/perillaroc/nwpc-hpc-model-go"
 	"log"
 	"strconv"
@@ -30,8 +29,6 @@ func (ql *QueryCategoryList) UpdateTokenIndex(titleLine string, sep string) {
 				continue
 			}
 			category.ParseRecord = recordParser
-		} else {
-			panic(fmt.Errorf("category label %s not found", label))
 		}
 	}
 }
