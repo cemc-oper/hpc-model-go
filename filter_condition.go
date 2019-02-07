@@ -1,5 +1,7 @@
 package hpcmodel
 
+import "fmt"
+
 type FilterCondition interface {
 	IsFit(item *Item) bool
 }
@@ -12,10 +14,12 @@ type StringPropertyFilterCondition struct {
 func (f *StringPropertyFilterCondition) IsFit(item *Item) bool {
 	prop := item.GetProperty(f.ID)
 	if prop == nil {
+		fmt.Printf("property not found: %s\n", f.ID)
 		return false
 	}
 	sp, ok := prop.(*StringProperty)
 	if !ok {
+		fmt.Printf("property is not string: %s\n", f.ID)
 		return false
 	}
 	return f.Checker.CheckValue(sp.Data)
