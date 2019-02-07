@@ -59,9 +59,12 @@ func (p *TokenRecordParser) Parse(records []string) string {
 	var tokens []string
 	if p.Sep == " " || p.Sep == "" {
 		tokens = strings.Fields(record)
-
 	} else {
 		tokens = strings.Split(record, p.Sep)
+	}
+	if p.Index == 0 {
+		fmt.Printf("**%s**\n", tokens[0])
+		fmt.Printf("**%v**\n", record)
 	}
 	return tokens[p.Index]
 }
