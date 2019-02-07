@@ -1,6 +1,7 @@
 package hpcmodel
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -27,6 +28,7 @@ func (c *StringInValueChecker) CheckValue(s string) bool {
 			return true
 		}
 	}
+	fmt.Printf("StringInValueChecker false: %s not in %v", s, c.ExpectedValues)
 	return false
 }
 
