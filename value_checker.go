@@ -28,7 +28,7 @@ func (c *StringInValueChecker) CheckValue(s string) bool {
 			return true
 		}
 	}
-	fmt.Printf("StringInValueChecker false: %s not in %v", s, c.ExpectedValues)
+	fmt.Printf("StringInValueChecker false: %s not in %v\n", s, c.ExpectedValues)
 	return false
 }
 
