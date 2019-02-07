@@ -8,7 +8,7 @@ import (
 
 func TestFilter_Filter(t *testing.T) {
 	items := []Item{
-		Item{
+		{
 			Props: []Property{
 				&StringProperty{
 					Category: QueryCategory{
@@ -42,7 +42,7 @@ func TestFilter_Filter(t *testing.T) {
 				},
 			},
 		},
-		Item{
+		{
 			Props: []Property{
 				&StringProperty{
 					Category: QueryCategory{
@@ -76,7 +76,7 @@ func TestFilter_Filter(t *testing.T) {
 				},
 			},
 		},
-		Item{
+		{
 			Props: []Property{
 				&StringProperty{
 					Category: QueryCategory{
