@@ -25,9 +25,10 @@ func BuildModel(record []string, categoryList QueryCategoryList, sep string) (*M
 		if len(line) == 0 {
 			continue
 		}
+		fmt.Printf("[BuildModel]**%v**\n", line)
 		item, err := hpcmodel.BuildItem([]string{line}, categoryList.QueryCategoryList)
 		if err != nil {
-			fmt.Printf("build item error: %v", err)
+			fmt.Printf("build item error: %v\n", err)
 			continue
 		}
 		model.Items = append(model.Items, *item)
