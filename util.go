@@ -1,6 +1,9 @@
 package hpcmodel
 
-import "sort"
+import (
+	"fmt"
+	"sort"
+)
 
 type LessFunc func(item1, item2 *Item) bool
 
@@ -21,8 +24,10 @@ func CreatePropertyLessFunc(id string) LessFunc {
 		case *TimestampProperty:
 			prop2 := p2.(*DateTimeProperty)
 			return prop1.Data.Before(prop2.Data)
+		case nil:
+			panic(fmt.Errorf("prop %s not found", id))
 		default:
-			panic("prop type not supported")
+			panic(fmt.Errorf("prop %s type not supported", id))
 		}
 	}
 }
