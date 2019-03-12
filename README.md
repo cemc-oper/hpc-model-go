@@ -1,4 +1,4 @@
-# nwpc-hpc-model-go
+# hpc-model-go
 
 A key-value model for HPC resources in NWPC. Including models for:
 
@@ -14,7 +14,7 @@ go get http://www.github.com/perillaroc/hpc-model-go
 
 ## Getting Started
 
-The following example uses `nwpc-hpc-model-go` to extract job id and job owner from a `squeue -o %all` query.
+The following example uses `hpc-model-go` to extract job id and job owner from a `squeue -o %all` query.
  
 Create category list:
 
@@ -90,4 +90,4 @@ Use `go test` to run all tests.
 
 Copyright &copy; 2019, Perilla Roc.
 
-`nwpc-hpc-model-go` is licensed under [The MIT License](https://opensource.org/licenses/MIT).
+`hpc-model-go` is licensed under [The MIT License](https://opensource.org/licenses/MIT).
