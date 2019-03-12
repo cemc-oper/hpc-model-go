@@ -2,7 +2,7 @@ package slurm
 
 import (
 	"fmt"
-	"github.com/perillaroc/nwpc-hpc-model-go"
+	"github.com/perillaroc/hpc-model-go"
 )
 
 type Model struct {

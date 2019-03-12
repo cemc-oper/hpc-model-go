@@ -1,8 +1,8 @@
 package slurm_test
 
 import (
-	"github.com/perillaroc/nwpc-hpc-model-go"
-	"github.com/perillaroc/nwpc-hpc-model-go/slurm"
+	"github.com/perillaroc/hpc-model-go"
+	"github.com/perillaroc/hpc-model-go/slurm"
 	"strconv"
 	"testing"
 )
