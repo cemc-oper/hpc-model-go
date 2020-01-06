@@ -9,7 +9,7 @@ A key-value model for HPC resources in NWPC. Including models for:
 Use `go get` to install the latest version.
 
 ```bash
-go get http://www.github.com/perillaroc/hpc-model-go
+go get http://www.github.com/nwpc-oper/hpc-model-go
 ```
 
 ## Getting Started
@@ -88,6 +88,6 @@ Use `go test` to run all tests.
 
 ## License
 
-Copyright &copy; 2019, Perilla Roc.
+Copyright &copy; 2019-2020, Perilla Roc.
 
 `hpc-model-go` is licensed under [The MIT License](https://opensource.org/licenses/MIT).

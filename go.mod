@@ -1,3 +1,3 @@
-module github.com/perillaroc/hpc-model-go
+module github.com/nwpc-oper/hpc-model-go
 
-go 1.12
+go 1.13

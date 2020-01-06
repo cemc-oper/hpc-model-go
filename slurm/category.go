@@ -1,7 +1,7 @@
 package slurm
 
 import (
-	"github.com/perillaroc/hpc-model-go"
+	"github.com/nwpc-oper/hpc-model-go"
 	"log"
 	"strconv"
 	"strings"

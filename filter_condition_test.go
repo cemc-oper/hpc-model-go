@@ -1,7 +1,7 @@
 package hpcmodel_test
 
 import (
-	. "github.com/perillaroc/hpc-model-go"
+	. "github.com/nwpc-oper/hpc-model-go"
 	"testing"
 	"time"
 )
