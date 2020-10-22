@@ -9,7 +9,7 @@ A key-value model for HPC resources in NWPC. Including models for:
 Use `go get` to install the latest version.
 
 ```bash
-go get http://www.github.com/nwpc-oper/hpc-model-go
+go get github.com/nwpc-oper/hpc-model-go
 ```
 
 ## Getting Started
