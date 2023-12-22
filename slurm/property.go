@@ -1,6 +1,6 @@
 package slurm
 
-import hpcmodel "github.com/nwpc-oper/hpc-model-go"
+import hpcmodel "github.com/cemc-oper/hpc-model-go"
 
 type JobState string
 

@@ -1,6 +1,7 @@
 # hpc-model-go
 
-A key-value model for HPC resources in NWPC. Including models for:
+A key-value model for HPC resources in CEMC/CMA. 
+Including models for:
 
 * Slurm
 
@@ -9,7 +10,7 @@ A key-value model for HPC resources in NWPC. Including models for:
 Use `go get` to install the latest version.
 
 ```bash
-go get http://www.github.com/nwpc-oper/hpc-model-go
+go get github.com/cemc-oper/hpc-model-go
 ```
 
 ## Getting Started
@@ -88,6 +89,6 @@ Use `go test` to run all tests.
 
 ## License
 
-Copyright &copy; 2019-2020, Perilla Roc.
+Copyright &copy; 2019-2023, developers at cemc-oper.
 
 `hpc-model-go` is licensed under [The MIT License](https://opensource.org/licenses/MIT).

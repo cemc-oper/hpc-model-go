@@ -1,28 +1,28 @@
 package hpcmodel_test
 
 import (
-	. "github.com/nwpc-oper/hpc-model-go"
+	hpcmodel "github.com/cemc-oper/hpc-model-go"
 	"testing"
 	"time"
 )
 
 func TestStringPropertyFilterCondition_IsFit(t *testing.T) {
-	item := Item{
-		Props: []Property{
-			&StringProperty{
-				Category: QueryCategory{
+	item := hpcmodel.Item{
+		Props: []hpcmodel.Property{
+			&hpcmodel.StringProperty{
+				Category: hpcmodel.QueryCategory{
 					ID: "squeue.account",
 				},
 				Data: "nwp_xp",
 			},
-			&StringProperty{
-				Category: QueryCategory{
+			&hpcmodel.StringProperty{
+				Category: hpcmodel.QueryCategory{
 					ID: "squeue.partition",
 				},
 				Data: "serial",
 			},
-			&StringProperty{
-				Category: QueryCategory{
+			&hpcmodel.StringProperty{
+				Category: hpcmodel.QueryCategory{
 					ID: "squeue.state",
 				},
 				Data: "RUNNING",
@@ -31,49 +31,49 @@ func TestStringPropertyFilterCondition_IsFit(t *testing.T) {
 	}
 
 	tests := []struct {
-		condition *StringPropertyFilterCondition
+		condition *hpcmodel.StringPropertyFilterCondition
 		result    bool
 	}{
 		{
-			condition: &StringPropertyFilterCondition{
+			condition: &hpcmodel.StringPropertyFilterCondition{
 				ID: "squeue.account",
-				Checker: &StringEqualValueChecker{
+				Checker: &hpcmodel.StringEqualValueChecker{
 					ExpectedValue: "nwp_xp",
 				},
 			},
 			result: true,
 		},
 		{
-			condition: &StringPropertyFilterCondition{
+			condition: &hpcmodel.StringPropertyFilterCondition{
 				ID: "squeue.partition",
-				Checker: &StringEqualValueChecker{
+				Checker: &hpcmodel.StringEqualValueChecker{
 					ExpectedValue: "serial",
 				},
 			},
 			result: true,
 		},
 		{
-			condition: &StringPropertyFilterCondition{
+			condition: &hpcmodel.StringPropertyFilterCondition{
 				ID: "squeue.partition",
-				Checker: &StringEqualValueChecker{
+				Checker: &hpcmodel.StringEqualValueChecker{
 					ExpectedValue: "serial_op",
 				},
 			},
 			result: false,
 		},
 		{
-			condition: &StringPropertyFilterCondition{
+			condition: &hpcmodel.StringPropertyFilterCondition{
 				ID: "squeue.account",
-				Checker: &StringInValueChecker{
+				Checker: &hpcmodel.StringInValueChecker{
 					ExpectedValues: []string{"nwp", "nwp_xp"},
 				},
 			},
 			result: true,
 		},
 		{
-			condition: &StringPropertyFilterCondition{
+			condition: &hpcmodel.StringPropertyFilterCondition{
 				ID: "squeue.account",
-				Checker: &StringContainChecker{
+				Checker: &hpcmodel.StringContainChecker{
 					ExpectedValue: "nwp",
 				},
 			},
@@ -89,16 +89,16 @@ func TestStringPropertyFilterCondition_IsFit(t *testing.T) {
 }
 
 func TestNumberPropertyFilterCondition_IsFit(t *testing.T) {
-	item := Item{
-		Props: []Property{
-			&NumberProperty{
-				Category: QueryCategory{
+	item := hpcmodel.Item{
+		Props: []hpcmodel.Property{
+			&hpcmodel.NumberProperty{
+				Category: hpcmodel.QueryCategory{
 					ID: "squeue.cpus",
 				},
 				Data: 18,
 			},
-			&NumberProperty{
-				Category: QueryCategory{
+			&hpcmodel.NumberProperty{
+				Category: hpcmodel.QueryCategory{
 					ID: "squeue.nodes",
 				},
 				Data: 32,
@@ -107,76 +107,76 @@ func TestNumberPropertyFilterCondition_IsFit(t *testing.T) {
 	}
 
 	tests := []struct {
-		condition *NumberPropertyFilterCondition
+		condition *hpcmodel.NumberPropertyFilterCondition
 		result    bool
 	}{
 		{
-			condition: &NumberPropertyFilterCondition{
+			condition: &hpcmodel.NumberPropertyFilterCondition{
 				ID: "squeue.cpus",
-				Checker: &NumberEqualValueChecker{
+				Checker: &hpcmodel.NumberEqualValueChecker{
 					ExpectedValue: 18,
 				},
 			},
 			result: true,
 		},
 		{
-			condition: &NumberPropertyFilterCondition{
+			condition: &hpcmodel.NumberPropertyFilterCondition{
 				ID: "squeue.cpus",
-				Checker: &NumberEqualValueChecker{
+				Checker: &hpcmodel.NumberEqualValueChecker{
 					ExpectedValue: 20,
 				},
 			},
 			result: false,
 		},
 		{
-			condition: &NumberPropertyFilterCondition{
+			condition: &hpcmodel.NumberPropertyFilterCondition{
 				ID: "squeue.cpus",
-				Checker: &NumberGreaterValueChecker{
+				Checker: &hpcmodel.NumberGreaterValueChecker{
 					ExpectedValue: 15,
 				},
 			},
 			result: true,
 		},
 		{
-			condition: &NumberPropertyFilterCondition{
+			condition: &hpcmodel.NumberPropertyFilterCondition{
 				ID: "squeue.cpus",
-				Checker: &NumberGreaterValueChecker{
+				Checker: &hpcmodel.NumberGreaterValueChecker{
 					ExpectedValue: 30,
 				},
 			},
 			result: false,
 		},
 		{
-			condition: &NumberPropertyFilterCondition{
+			condition: &hpcmodel.NumberPropertyFilterCondition{
 				ID: "squeue.cpus",
-				Checker: &NumberLessValueChecker{
+				Checker: &hpcmodel.NumberLessValueChecker{
 					ExpectedValue: 30,
 				},
 			},
 			result: true,
 		},
 		{
-			condition: &NumberPropertyFilterCondition{
+			condition: &hpcmodel.NumberPropertyFilterCondition{
 				ID: "squeue.cpus",
-				Checker: &NumberLessValueChecker{
+				Checker: &hpcmodel.NumberLessValueChecker{
 					ExpectedValue: 10,
 				},
 			},
 			result: false,
 		},
 		{
-			condition: &NumberPropertyFilterCondition{
+			condition: &hpcmodel.NumberPropertyFilterCondition{
 				ID: "squeue.cpus",
-				Checker: &NumberInValueChecker{
+				Checker: &hpcmodel.NumberInValueChecker{
 					ExpectedValues: []float64{18, 20},
 				},
 			},
 			result: true,
 		},
 		{
-			condition: &NumberPropertyFilterCondition{
+			condition: &hpcmodel.NumberPropertyFilterCondition{
 				ID: "squeue.cpus",
-				Checker: &NumberInValueChecker{
+				Checker: &hpcmodel.NumberInValueChecker{
 					ExpectedValues: []float64{19, 20},
 				},
 			},
@@ -192,16 +192,16 @@ func TestNumberPropertyFilterCondition_IsFit(t *testing.T) {
 }
 
 func TestDateTimePropertyFilterCondition_IsFit(t *testing.T) {
-	item := Item{
-		Props: []Property{
-			&DateTimeProperty{
-				Category: QueryCategory{
+	item := hpcmodel.Item{
+		Props: []hpcmodel.Property{
+			&hpcmodel.DateTimeProperty{
+				Category: hpcmodel.QueryCategory{
 					ID: "squeue.submit_time",
 				},
 				Data: time.Date(2019, time.February, 6, 18, 00, 00, 00, time.UTC),
 			},
-			&DateTimeProperty{
-				Category: QueryCategory{
+			&hpcmodel.DateTimeProperty{
+				Category: hpcmodel.QueryCategory{
 					ID: "squeue.start_time",
 				},
 				Data: time.Date(2019, time.February, 6, 19, 00, 00, 00, time.UTC),
@@ -210,40 +210,40 @@ func TestDateTimePropertyFilterCondition_IsFit(t *testing.T) {
 	}
 
 	tests := []struct {
-		condition *DateTimePropertyFilterCondition
+		condition *hpcmodel.DateTimePropertyFilterCondition
 		result    bool
 	}{
 		{
-			condition: &DateTimePropertyFilterCondition{
+			condition: &hpcmodel.DateTimePropertyFilterCondition{
 				ID: "squeue.submit_time",
-				Checker: &DateTimeEqualValueChecker{
+				Checker: &hpcmodel.DateTimeEqualValueChecker{
 					ExpectedValue: time.Date(2019, time.February, 6, 18, 00, 00, 00, time.UTC),
 				},
 			},
 			result: true,
 		},
 		{
-			condition: &DateTimePropertyFilterCondition{
+			condition: &hpcmodel.DateTimePropertyFilterCondition{
 				ID: "squeue.submit_time",
-				Checker: &DateTimeEqualValueChecker{
+				Checker: &hpcmodel.DateTimeEqualValueChecker{
 					ExpectedValue: time.Date(2019, time.February, 6, 19, 00, 00, 00, time.UTC),
 				},
 			},
 			result: false,
 		},
 		{
-			condition: &DateTimePropertyFilterCondition{
+			condition: &hpcmodel.DateTimePropertyFilterCondition{
 				ID: "squeue.start_time",
-				Checker: &DateTimeAfterValueChecker{
+				Checker: &hpcmodel.DateTimeAfterValueChecker{
 					ExpectedValue: time.Date(2019, time.February, 6, 18, 30, 00, 00, time.UTC),
 				},
 			},
 			result: true,
 		},
 		{
-			condition: &DateTimePropertyFilterCondition{
+			condition: &hpcmodel.DateTimePropertyFilterCondition{
 				ID: "squeue.start_time",
-				Checker: &DateTimeBeforeValueChecker{
+				Checker: &hpcmodel.DateTimeBeforeValueChecker{
 					ExpectedValue: time.Date(2019, time.February, 6, 18, 30, 00, 00, time.UTC),
 				},
 			},

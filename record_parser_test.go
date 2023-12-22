@@ -1,7 +1,7 @@
 package hpcmodel_test
 
 import (
-	"github.com/nwpc-oper/hpc-model-go"
+	hpcmodel "github.com/cemc-oper/hpc-model-go"
 	"testing"
 )
 
