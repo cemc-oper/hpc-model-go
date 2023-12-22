@@ -1,6 +1,6 @@
 # hpc-model-go
 
-A key-value model for HPC resources in CEMC/CMA. 
+A key-value model for HPC resources in CEMC/CMA.
 Including models for:
 
 * Slurm
