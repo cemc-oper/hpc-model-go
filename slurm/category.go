@@ -26,7 +26,6 @@ func (ql *QueryCategoryList) UpdateTokenIndex(titleLine string, sep string) {
 			recordParser, err := hpcmodel.BuildRecordParser(category)
 			if err != nil {
 				log.Fatalf("build record parser failed: %v", err)
-				continue
 			}
 			category.ParseRecord = recordParser
 		}
