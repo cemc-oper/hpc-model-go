@@ -1,9 +1,10 @@
 package hpcmodel_test
 
 import (
-	hpcmodel "github.com/cemc-oper/hpc-model-go"
 	"testing"
 	"time"
+
+	hpcmodel "github.com/cemc-oper/hpc-model-go"
 )
 
 func TestStringProperty_SetValue(t *testing.T) {
@@ -163,6 +164,54 @@ func TestBuildProperty_StringProperty(t *testing.T) {
 	}
 }
 
+func TestTimeStringProperty_SetValue(t *testing.T) {
+	var tests = []struct {
+		s     string
+		value string
+		data  time.Duration
+		text  string
+	}{
+		{
+			"32:22",
+			"32:22",
+			32*time.Minute + 22*time.Second,
+			"32:22",
+		},
+		{
+			"20:53:37",
+			"20:53:37",
+			20*time.Hour + 53*time.Minute + 37*time.Second,
+			"20:53:37",
+		},
+		{
+			"2-03:06:23",
+			"2-03:06:23",
+			2*24*time.Hour + 3*time.Hour + 6*time.Minute + 23*time.Second,
+			"2-03:06:23",
+		},
+		{
+			"0:00",
+			"0:00",
+			0,
+			"0:00",
+		},
+	}
+
+	for _, test := range tests {
+		var p hpcmodel.TimeStringProperty
+		p.SetValue(test.s)
+		if p.Value != test.value {
+			t.Errorf("p.Value != %s", test.value)
+		}
+		if p.Data != test.data {
+			t.Errorf("p.Data != %v", test.data)
+		}
+		if p.Text != test.text {
+			t.Errorf("p.Text != %s", test.text)
+		}
+	}
+}
+
 func TestBuildProperty_NumberProperty(t *testing.T) {
 	var tests = []struct {
 		category hpcmodel.QueryCategory
@@ -207,5 +256,67 @@ func TestBuildProperty_NumberProperty(t *testing.T) {
 			t.Errorf("p.Text != %s", test.text)
 		}
 
+	}
+}
+
+func TestBuildProperty_TimeStringProperty(t *testing.T) {
+	var tests = []struct {
+		category hpcmodel.QueryCategory
+		records  []string
+		value    string
+		data     time.Duration
+		text     string
+	}{
+		{
+			hpcmodel.QueryCategory{
+				ID:          "id1",
+				DisplayName: "time",
+				Label:       "time",
+				ParseRecord: &hpcmodel.TokenRecordParser{
+					Index: 1,
+					Sep:   "|",
+				},
+				PropertyClass: "TimeStringProperty",
+			},
+			[]string{"job|20:53:37|running"},
+			"20:53:37",
+			20*time.Hour + 53*time.Minute + 37*time.Second,
+			"20:53:37",
+		},
+		{
+			hpcmodel.QueryCategory{
+				ID:          "id2",
+				DisplayName: "time_left",
+				Label:       "time_left",
+				ParseRecord: &hpcmodel.TokenRecordParser{
+					Index: 0,
+					Sep:   "|",
+				},
+				PropertyClass: "TimeStringProperty",
+			},
+			[]string{"2-03:06:23"},
+			"2-03:06:23",
+			2*24*time.Hour + 3*time.Hour + 6*time.Minute + 23*time.Second,
+			"2-03:06:23",
+		},
+	}
+	for _, test := range tests {
+		p, err := hpcmodel.BuildProperty(test.records, test.category)
+		if err != nil {
+			t.Errorf("build property failed: %v", err)
+		}
+		tp, ok := p.(*hpcmodel.TimeStringProperty)
+		if !ok {
+			t.Errorf("property is not TimeStringProperty")
+		}
+		if tp.Value != test.value {
+			t.Errorf("p.Value != %s", test.value)
+		}
+		if tp.Data != test.data {
+			t.Errorf("p.Data != %v", test.data)
+		}
+		if tp.Text != test.text {
+			t.Errorf("p.Text != %s", test.text)
+		}
 	}
 }

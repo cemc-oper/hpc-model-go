@@ -3,6 +3,7 @@ package hpcmodel
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -23,6 +24,8 @@ func BuildProperty(records []string, category QueryCategory) (Property, error) {
 		p = &DateTimeProperty{}
 	case "TimestampProperty":
 		p = &TimestampProperty{}
+	case "TimeStringProperty":
+		p = &TimeStringProperty{}
 	default:
 		return nil, fmt.Errorf("error PropertyClass: %s", category.PropertyClass)
 	}
@@ -93,7 +96,7 @@ func (p *DateTimeProperty) SetValue(value string) {
 		panic(err)
 	}
 	p.Value = value
-	p.Text = data.Format("2006-01-02 15:04:05")
+	p.Text = value
 	p.Data = data
 }
 
@@ -129,5 +132,70 @@ func (p *TimestampProperty) SetCategory(category QueryCategory) {
 }
 
 func (p *TimestampProperty) PropertyID() string {
+	return p.Category.ID
+}
+
+type TimeStringProperty struct {
+	Category   QueryCategory
+	TimeFormat string
+	Value      string
+	Text       string
+	Data       time.Duration
+}
+
+func (p *TimeStringProperty) SetValue(value string) {
+	if value == "N/A" || value == "" || value == "INVALID" {
+		panic(fmt.Errorf("invalid time string: %s", value))
+	}
+
+	var days int
+	s := value
+	if i := strings.IndexByte(s, '-'); i >= 0 {
+		var err error
+		days, err = strconv.Atoi(s[:i])
+		if err != nil {
+			panic(err)
+		}
+		s = s[i+1:]
+	}
+
+	parts := strings.Split(s, ":")
+	if len(parts) != 2 && len(parts) != 3 {
+		panic(fmt.Errorf("unknown time format: %s", value))
+	}
+
+	// MM:SS -> 0:MM:SS
+	if len(parts) == 2 {
+		parts = append([]string{"0"}, parts...)
+	}
+
+	hh, err := strconv.Atoi(parts[0])
+	if err != nil {
+		panic(err)
+	}
+	mm, err := strconv.Atoi(parts[1])
+	if err != nil {
+		panic(err)
+	}
+	ss, err := strconv.Atoi(parts[2])
+	if err != nil {
+		panic(err)
+	}
+
+	d := time.Duration(days)*24*time.Hour +
+		time.Duration(hh)*time.Hour +
+		time.Duration(mm)*time.Minute +
+		time.Duration(ss)*time.Second
+
+	p.Value = value
+	p.Text = value
+	p.Data = d
+}
+
+func (p *TimeStringProperty) SetCategory(category QueryCategory) {
+	p.Category = category
+}
+
+func (p *TimeStringProperty) PropertyID() string {
 	return p.Category.ID
 }
