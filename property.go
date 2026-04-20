@@ -64,12 +64,13 @@ type NumberProperty struct {
 }
 
 func (p *NumberProperty) SetValue(value string) {
-	data, err := strconv.ParseFloat(value, 64)
-	if err != nil {
-		panic(err)
-	}
 	p.Value = value
 	p.Text = value
+	data, err := strconv.ParseFloat(value, 64)
+	if err != nil {
+		p.Data = 0
+		return
+	}
 	p.Data = data
 }
 
@@ -90,13 +91,15 @@ type DateTimeProperty struct {
 }
 
 func (p *DateTimeProperty) SetValue(value string) {
+	p.Value = value
 	const timeFormat = "2006-01-02T15:04:05"
 	data, err := time.Parse(timeFormat, value)
 	if err != nil {
-		panic(err)
+		p.Text = value
+		p.Data = time.Time{}
+		return
 	}
-	p.Value = value
-	p.Text = value
+	p.Text = data.Format("2006-01-02 15:04:05")
 	p.Data = data
 }
 
@@ -116,13 +119,14 @@ type TimestampProperty struct {
 }
 
 func (p *TimestampProperty) SetValue(value string) {
+	p.Value = value
 	f, err := strconv.ParseInt(value, 10, 64)
 	if err != nil {
-		panic(err)
+		p.Text = value
+		p.Data = time.Time{}
+		return
 	}
 	data := time.Unix(f, 0).UTC()
-
-	p.Value = value
 	p.Text = data.Format("2006-01-02 15:04:05")
 	p.Data = data
 }
@@ -144,8 +148,12 @@ type TimeStringProperty struct {
 }
 
 func (p *TimeStringProperty) SetValue(value string) {
+	p.Value = value
+	p.Text = value
+
 	if value == "N/A" || value == "" || value == "INVALID" {
-		panic(fmt.Errorf("invalid time string: %s", value))
+		p.Data = 0
+		return
 	}
 
 	var days int
@@ -154,14 +162,16 @@ func (p *TimeStringProperty) SetValue(value string) {
 		var err error
 		days, err = strconv.Atoi(s[:i])
 		if err != nil {
-			panic(err)
+			p.Data = 0
+			return
 		}
 		s = s[i+1:]
 	}
 
 	parts := strings.Split(s, ":")
 	if len(parts) != 2 && len(parts) != 3 {
-		panic(fmt.Errorf("unknown time format: %s", value))
+		p.Data = 0
+		return
 	}
 
 	// MM:SS -> 0:MM:SS
@@ -171,25 +181,24 @@ func (p *TimeStringProperty) SetValue(value string) {
 
 	hh, err := strconv.Atoi(parts[0])
 	if err != nil {
-		panic(err)
+		p.Data = 0
+		return
 	}
 	mm, err := strconv.Atoi(parts[1])
 	if err != nil {
-		panic(err)
+		p.Data = 0
+		return
 	}
 	ss, err := strconv.Atoi(parts[2])
 	if err != nil {
-		panic(err)
+		p.Data = 0
+		return
 	}
 
-	d := time.Duration(days)*24*time.Hour +
+	p.Data = time.Duration(days)*24*time.Hour +
 		time.Duration(hh)*time.Hour +
 		time.Duration(mm)*time.Minute +
 		time.Duration(ss)*time.Second
-
-	p.Value = value
-	p.Text = value
-	p.Data = d
 }
 
 func (p *TimeStringProperty) SetCategory(category QueryCategory) {
