@@ -44,6 +44,9 @@ func (p *TokenRecordParser) SetArguments(arguments []string) error {
 		if err != nil {
 			return fmt.Errorf("parse arg[0] failed: %v", err)
 		}
+		if index < 0 {
+			return fmt.Errorf("arg[0] must be non-negative")
+		}
 	}
 
 	if l == 2 {

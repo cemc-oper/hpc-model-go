@@ -1,8 +1,9 @@
 package hpcmodel_test
 
 import (
-	hpcmodel "github.com/cemc-oper/hpc-model-go"
 	"testing"
+
+	hpcmodel "github.com/cemc-oper/hpc-model-go"
 )
 
 func TestBuildRecordParser_TokenRecordParser(t *testing.T) {
@@ -10,87 +11,134 @@ func TestBuildRecordParser_TokenRecordParser(t *testing.T) {
 		RecordParserClass:     "TokenRecordParser",
 		RecordParserArguments: []string{"1", "|"},
 	}
-	_, err := hpcmodel.BuildRecordParser(category)
+
+	recordParser, err := hpcmodel.BuildRecordParser(category)
 	if err != nil {
-		t.Errorf("Build TokenRecordParser failed.")
+		t.Fatalf("BuildRecordParser() error = %v", err)
+	}
+	p, ok := recordParser.(*hpcmodel.TokenRecordParser)
+	if !ok {
+		t.Fatalf("BuildRecordParser() type = %T, want *TokenRecordParser", recordParser)
+	}
+	if p.Index != 1 || p.Sep != "|" {
+		t.Errorf("parser = {Index: %d, Sep: %q}, want {Index: 1, Sep: %q}", p.Index, p.Sep, "|")
 	}
 }
 
 func TestTokenRecordParser_Parse(t *testing.T) {
-	var tests = []struct {
+	tests := []struct {
+		name    string
 		index   int
 		sep     string
 		records []string
-		result  string
+		want    string
 	}{
 		{
-			0,
-			"|",
-			[]string{"nwp_xp|(null)|1|0|NONE"},
-			"nwp_xp",
+			name:    "first column",
+			index:   0,
+			sep:     "|",
+			records: []string{"nwp_xp|(null)|1|0|NONE"},
+			want:    "nwp_xp",
 		},
 		{
-			1,
-			"|",
-			[]string{"nwp_xp|(null)|1|0|NONE"},
-			"(null)",
+			name:    "middle column",
+			index:   2,
+			sep:     "|",
+			records: []string{"nwp_xp|(null)|1|0|NONE"},
+			want:    "1",
 		},
 		{
-			2,
-			"|",
-			[]string{"nwp_xp|(null)|1|0|NONE"},
-			"1",
+			name:    "last column",
+			index:   4,
+			sep:     "|",
+			records: []string{"nwp_xp|(null)|1|0|NONE"},
+			want:    "NONE",
 		},
 		{
-			3,
-			"|",
-			[]string{"nwp_xp|(null)|1|0|NONE"},
-			"0",
+			name:    "empty column between consecutive separators",
+			index:   1,
+			sep:     "|",
+			records: []string{"alpha||gamma"},
+			want:    "",
+		},
+		{
+			name:    "trailing empty column",
+			index:   2,
+			sep:     "|",
+			records: []string{"alpha|beta|"},
+			want:    "",
+		},
+		{
+			name:    "space separator uses fields",
+			index:   1,
+			sep:     " ",
+			records: []string{"  alpha   beta gamma  "},
+			want:    "beta",
+		},
+		{
+			name:    "empty separator uses fields",
+			index:   2,
+			sep:     "",
+			records: []string{"  alpha   beta gamma  "},
+			want:    "gamma",
 		},
 	}
 
-	for _, test := range tests {
-		p := &hpcmodel.TokenRecordParser{
-			Index: test.index,
-			Sep:   test.sep,
-		}
-		result := p.Parse(test.records)
-		if result != test.result {
-			t.Errorf("result is error: %d, result is %s, expect is %s",
-				test.index, result, test.result)
-		}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &hpcmodel.TokenRecordParser{Index: tt.index, Sep: tt.sep}
+			if got := p.Parse(tt.records); got != tt.want {
+				t.Errorf("Parse(%q) with index %d and separator %q = %q, want %q", tt.records, tt.index, tt.sep, got, tt.want)
+			}
+		})
 	}
 }
 
 func TestTokenRecordParser_SetArguments(t *testing.T) {
-	var tests = []struct {
+	tests := []struct {
+		name      string
 		arguments []string
-		index     int
-		sep       string
+		wantIndex int
+		wantSep   string
 	}{
-		{
-			[]string{"1", "|"},
-			1,
-			"|",
-		},
-		{
-			[]string{"2"},
-			2,
-			"",
-		},
+		{name: "index and separator", arguments: []string{"1", "|"}, wantIndex: 1, wantSep: "|"},
+		{name: "index only", arguments: []string{"2"}, wantIndex: 2, wantSep: ""},
+		{name: "zero index", arguments: []string{"0", " "}, wantIndex: 0, wantSep: " "},
 	}
 
-	for _, test := range tests {
-		parser := new(hpcmodel.TokenRecordParser)
-		err := parser.SetArguments(test.arguments)
-		if err != nil {
-			t.Errorf("set arguments %v failed: %v", test.arguments, err)
-		}
-		if parser.Index != test.index {
-			t.Errorf("set arguments %v Index is %d, requred %d", test.arguments, parser.Index, test.index)
-		}
-		if parser.Sep != test.sep {
-			t.Errorf("set arguments %v Sep is %s, requred %s", test.arguments, parser.Sep, test.sep)
-		}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			parser := new(hpcmodel.TokenRecordParser)
+			if err := parser.SetArguments(tt.arguments); err != nil {
+				t.Fatalf("SetArguments(%v) error = %v", tt.arguments, err)
+			}
+			if parser.Index != tt.wantIndex {
+				t.Errorf("Index = %d, want %d", parser.Index, tt.wantIndex)
+			}
+			if parser.Sep != tt.wantSep {
+				t.Errorf("Sep = %q, want %q", parser.Sep, tt.wantSep)
+			}
+		})
+	}
+}
+
+func TestTokenRecordParser_SetArgumentsErrors(t *testing.T) {
+	tests := []struct {
+		name      string
+		arguments []string
+	}{
+		{name: "no arguments", arguments: nil},
+		{name: "too many arguments", arguments: []string{"1", "|", "extra"}},
+		{name: "invalid index", arguments: []string{"invalid", "|"}},
+		{name: "negative index", arguments: []string{"-1", "|"}},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			parser := new(hpcmodel.TokenRecordParser)
+			if err := parser.SetArguments(tt.arguments); err == nil {
+				t.Errorf("SetArguments(%v) error = nil, want an error", tt.arguments)
+			}
+		})
 	}
 }
