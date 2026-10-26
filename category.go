@@ -4,6 +4,7 @@ type QueryCategory struct {
 	ID                      string
 	DisplayName             string
 	Label                   string
+	LabelOccurrence         int // Zero-based occurrence in a header with duplicate labels.
 	ParseRecord             RecordParser
 	RecordParserClass       string
 	RecordParserArguments   []string
@@ -19,6 +20,9 @@ func (q1 *QueryCategory) Equal(q2 *QueryCategory) bool {
 		return false
 	}
 	if q1.DisplayName != q2.DisplayName {
+		return false
+	}
+	if q1.LabelOccurrence != q2.LabelOccurrence {
 		return false
 	}
 	if q1.RecordParserClass != q2.RecordParserClass {

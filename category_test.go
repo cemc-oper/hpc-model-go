@@ -92,6 +92,20 @@ var categoryList = hpcmodel.QueryCategoryList{
 	},
 }
 
+func TestQueryCategory_EqualLabelOccurrence(t *testing.T) {
+	category := hpcmodel.QueryCategory{ID: "squeue.priority", Label: "PRIORITY"}
+	same := category
+	different := category
+	different.LabelOccurrence = 1
+
+	if !category.Equal(&same) {
+		t.Error("Equal() = false for categories with the same label occurrence")
+	}
+	if category.Equal(&different) {
+		t.Error("Equal() = true for categories with different label occurrences")
+	}
+}
+
 func TestQueryCategoryList_ContainsID(t *testing.T) {
 	tests := []struct {
 		id     string
