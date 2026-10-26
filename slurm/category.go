@@ -11,14 +11,16 @@ type QueryCategoryList struct {
 	hpcmodel.QueryCategoryList
 }
 
+func splitTokens(line string, sep string) []string {
+	if sep == "" || sep == " " {
+		return strings.Fields(line)
+	}
+	return strings.Split(line, sep)
+}
+
 func (ql *QueryCategoryList) UpdateTokenIndex(titleLine string, sep string) {
 	titleLine = strings.TrimSpace(titleLine)
-	var tokens []string
-	if sep == "" || sep == " " {
-		tokens = strings.Fields(titleLine)
-	} else {
-		tokens = strings.Split(titleLine, sep)
-	}
+	tokens := splitTokens(titleLine, sep)
 	labelOccurrences := make(map[string]int)
 	for index, label := range tokens {
 		occurrence := labelOccurrences[label]
